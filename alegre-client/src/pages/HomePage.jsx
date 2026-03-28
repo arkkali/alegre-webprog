@@ -31,29 +31,18 @@ const HomePage = () => {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col gap-10 bg-[#050614] overflow-x-hidden">
-      
-       {/* 1. OPTIMIZED BACKGROUND ENGINE */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Deep Navy to Black Base Gradient */}
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_#0a0c28_0%,_#050614_100%)] opacity-95"></div>
-        
-        {/* High-Performance Radial Glow - Pinned to Top Center */}
         <div 
           className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1200px] h-[700px] 
                      bg-blue-900/20 rounded-[100%] blur-[120px] will-change-transform"
         ></div>
-
-        {/* Optional: Subtle bottom-right accent glow */}
         <div 
           className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] 
                      bg-indigo-900/10 rounded-[100%] blur-[100px]"
         ></div>
       </div>
-
-      {/* 2. MAIN CONTENT (Wrapped in Z-10 to stay above background) */}
       <div className="relative z-10">
-        
-        {/* Hero Section */}
         <section className="border-b border-white/10 px-4 py-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
@@ -81,7 +70,6 @@ const HomePage = () => {
 
             <div className="flex justify-center lg:justify-end">
               <div className="relative group w-2/3 lg:w-1/2">
-                {/* Glow behind profile photo */}
                 <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-blue-600 to-cyan-500 opacity-20 blur transition duration-1000 group-hover:opacity-40"></div>
                 <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0d1117]">
                   <img
@@ -94,8 +82,6 @@ const HomePage = () => {
             </div>
           </div>
         </section>
-
-        {/* Featured Artwork Section */}
         <section className="px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10">

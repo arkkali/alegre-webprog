@@ -34,8 +34,6 @@ const NavBar = () => {
             ARKKALI
           </h1>
         </NavLink>
-
-        {/* Modern Minimalist Navigation */}
         <nav className="hidden items-center gap-6 md:flex">
           {links.map((link) => (
             <NavLink 
@@ -49,7 +47,6 @@ const NavBar = () => {
           ))}
         </nav>
 
-        {/* Mobile Menu Icon (SVG) */}
         <div className="flex md:hidden">
           <button className="text-slate-400 hover:text-white transition-colors">
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

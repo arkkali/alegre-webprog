@@ -74,7 +74,6 @@ const ArtViewPage = () => {
         </Button>
       </div>
 
-      {/* 2. Title & Description - Left Side */}
       <aside className="absolute left-10 top-1/2 -translate-y-1/2 z-10 hidden xl:flex flex-col gap-2 max-w-[20vw]">
         <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
           {art.title}
@@ -85,7 +84,6 @@ const ArtViewPage = () => {
         <div className="h-0.5 w-16 bg-blue-500 rounded-full mt-2"></div>
       </aside>
 
-      {/* 3. The Art Container */}
       <div 
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setZoomStyle({ transformOrigin: 'center' })}
@@ -99,7 +97,6 @@ const ArtViewPage = () => {
         />
       </div>
 
-      {/* 4. Footer - Pinned Bottom */}
       <footer className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
         <p className="text-[10px] font-medium uppercase tracking-[0.3em] text-slate-500 animate-pulse">
           Move mouse over picture to see details
