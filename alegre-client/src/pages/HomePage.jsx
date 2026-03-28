@@ -30,18 +30,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col gap-10 bg-[#050614] overflow-x-hidden">
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_#0a0c28_0%,_#050614_100%)] opacity-95"></div>
-        <div 
-          className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1200px] h-[700px] 
-                     bg-blue-900/20 rounded-[100%] blur-[120px] will-change-transform"
-        ></div>
-        <div 
-          className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] 
-                     bg-indigo-900/10 rounded-[100%] blur-[100px]"
-        ></div>
-      </div>
+     <div className="relative min-h-screen w-full flex flex-col gap-10 bg-[#0c0e2f] overflow-x-hidden">
       <div className="relative z-10">
         <section className="border-b border-white/10 px-4 py-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2 lg:items-center">

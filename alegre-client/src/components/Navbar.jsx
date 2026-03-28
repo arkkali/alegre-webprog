@@ -17,7 +17,7 @@ const navLinkClassName = ({ isActive }) =>
 
 const NavBar = () => {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#0a0c28] shadow-2xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#090b26] shadow-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
         
         {/* ARKKALI Brand Section */}
