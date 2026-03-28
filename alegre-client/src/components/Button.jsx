@@ -8,7 +8,7 @@ const variantClasses = {
 const Button = ({
   children,
   to,
-  state,    
+  state,    // 1. ADD THIS PROP
   onClick, 
   type = 'button',
   variant = 'secondary',
@@ -26,7 +26,7 @@ const Button = ({
     return (
       <Link 
         to={to} 
-        state={state} 
+        state={state} // 2. PASS IT DOWN HERE
         className={classes}
       >
         {children}

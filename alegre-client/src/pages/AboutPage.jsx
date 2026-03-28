@@ -31,6 +31,8 @@ const AboutPage = () => {
                 </div>
               </div>
             </div>
+
+            {/* Text Content */}
             <div>
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400">
                 About the Artist
@@ -56,6 +58,7 @@ const AboutPage = () => {
           </div>
         </section>
 
+        {/* Quick Stats Section */}
         <section className="px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10">

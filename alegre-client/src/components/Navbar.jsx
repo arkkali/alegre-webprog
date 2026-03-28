@@ -17,7 +17,7 @@ const navLinkClassName = ({ isActive }) =>
 
 const NavBar = () => {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#090b26] shadow-2xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#0a0c28] shadow-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
         
         {/* ARKKALI Brand Section */}
@@ -34,6 +34,8 @@ const NavBar = () => {
             ARKKALI
           </h1>
         </NavLink>
+
+        {/* Modern Minimalist Navigation */}
         <nav className="hidden items-center gap-6 md:flex">
           {links.map((link) => (
             <NavLink 
@@ -47,6 +49,7 @@ const NavBar = () => {
           ))}
         </nav>
 
+        {/* Mobile Menu Icon (SVG) */}
         <div className="flex md:hidden">
           <button className="text-slate-400 hover:text-white transition-colors">
             <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
