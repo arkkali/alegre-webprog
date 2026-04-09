@@ -30,7 +30,7 @@ const HomePage = () => {
   ];
 
   return (
-     <div className="relative min-h-screen w-full flex flex-col gap-10 bg-[#0c0e2f] overflow-x-hidden">
+    <div className="relative min-h-screen w-full flex flex-col gap-10 bg-[#0c0e2f] overflow-x-hidden">
       <div className="relative z-10">
         <section className="border-b border-white/10 px-4 py-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -39,7 +39,8 @@ const HomePage = () => {
                 Digital Art Portfolio
               </p>
               <h1 className="max-w-xl text-4xl font-black leading-tight text-white sm:text-5xl tracking-tighter">
-                Welcome to My <span className="text-blue-500">Creative</span> Space
+                Welcome to My <span className="text-blue-500">Creative</span>{" "}
+                Space
               </h1>
               <p className="mt-6 max-w-lg text-sm leading-8 text-slate-400 sm:text-base">
                 Hi! Welcome to my Art Portfolio!
@@ -47,8 +48,8 @@ const HomePage = () => {
                 <br />
                 Get to know me through art. Feel free to explore a curated
                 collection of some of my drawings throughout the time. I've only
-                shared few of them and will make sure to draw and add more. Thank
-                you and have fun!
+                shared few of them and will make sure to draw and add more.
+                Thank you and have fun!
               </p>
               <div className="mt-8">
                 <Button to="/about" variant="primary">
@@ -116,7 +117,23 @@ const HomePage = () => {
           </div>
         </section>
 
-        <footer className="mt-10 border-t border-white/5 pb-10"></footer>
+        <footer className="mt-20 border-t border-white/5 bg-black/20 backdrop-blur-md py-8 px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] tracking-[0.2em] uppercase font-medium">
+            {/* Copyright Info */}
+            <p className="text-slate-500">
+              © 2026 Allen B. Alegre. All Rights Reserved.
+            </p>
+
+            {/* System Status Line */}
+            <div className="flex items-center gap-3 text-slate-300">
+              <span className="text-blue-500 font-bold tracking-[0.3em]">
+                System Status:
+              </span>
+              <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+              <span>Active & Developing</span>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );

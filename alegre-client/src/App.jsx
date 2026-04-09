@@ -4,6 +4,9 @@ import Layout from './components/Layout';
 import OtherWorksPage from './pages/OtherWorksPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import ArticleListPage from './pages/ArticleListPage';
+import ArticlePage from './pages/ArticlePage';
+import NotFoundPage from './pages/NotFoundPage'; 
 
 const routes = [
   {
@@ -26,6 +29,26 @@ const routes = [
         path: 'art/:id',
         element: <ArtViewPage />,
       },
+      {
+        path: 'articles',
+        element: <ArticleListPage/>,
+      },
+      {
+        path: 'articles/:name',
+        element: <ArticlePage/>,
+      },
+
+      // ✅ ADD THIS (so /404 EXISTS)
+      {
+        path: '404',
+        element: <NotFoundPage />,
+      },
+
+      // ✅ KEEP THIS (already correct)
+      {
+        path: '*', // CATCH-ALL ROUTE
+        element: <NotFoundPage />,
+      },
     ],
   },
 ];
@@ -34,9 +57,7 @@ const router = createBrowserRouter(routes);
 
 function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider router={router} />
   );
 }
 

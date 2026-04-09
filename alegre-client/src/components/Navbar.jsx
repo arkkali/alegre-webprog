@@ -4,6 +4,7 @@ import logo from '../assets/images/logo.png';
 const links = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
+  { label: 'Articles', to: '/articles' },
   { label: 'Other Works', to: '/OtherWorks' },
 ];
 
@@ -20,7 +21,6 @@ const NavBar = () => {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#090b26] shadow-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
         
-        {/* ARKKALI Brand Section */}
         <NavLink to="/" className="group flex items-center gap-4 transition-transform hover:scale-[1.01]">
           <img 
             src={logo} 

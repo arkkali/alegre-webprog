@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import aiah from "../assets/images/aiah.jpg";
 import venom from "../assets/images/venom.jpg";
@@ -15,7 +15,7 @@ import girl from "../assets/images/girl.png";
 
 const OtherWorksPage = () => {
   const location = useLocation();
-  
+
   const extraArtworks = [
     {
       id: "aiah",
@@ -93,8 +93,6 @@ const OtherWorksPage = () => {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col gap-10 bg-[#0c0e2f] overflow-x-hidden">
-      
-      
       <div className="relative z-10">
         <section className="border-b border-white/10 px-4 py-12 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
@@ -105,7 +103,9 @@ const OtherWorksPage = () => {
               More of My <span className="text-blue-500">Creative</span> Work
             </h1>
             <p className="mt-6 max-w-lg text-sm leading-8 text-slate-400 sm:text-base">
-              An archive of sketches and portraits, capturing the progress of my style and technique. Hoping to add more in this wall. Enjoy and Have fun!
+              An archive of sketches and portraits, capturing the progress of my
+              style and technique. Hoping to add more in this wall. Enjoy and
+              Have fun!
             </p>
             <div className="mt-8">
               <Button to="/" variant="primary">
@@ -162,7 +162,23 @@ const OtherWorksPage = () => {
           </div>
         </section>
 
-        <footer className="mt-10 border-t border-white/5 pb-10"></footer>
+        <footer className="mt-20 border-t border-white/5 bg-black/20 backdrop-blur-md py-8 px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] tracking-[0.2em] uppercase font-medium">
+            {/* Copyright Info */}
+            <p className="text-slate-500">
+              © 2026 Allen B. Alegre. All Rights Reserved.
+            </p>
+
+            {/* System Status Line */}
+            <div className="flex items-center gap-3 text-slate-300">
+              <span className="text-blue-500 font-bold tracking-[0.3em]">
+                System Status:
+              </span>
+              <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+              <span>Active & Developing</span>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
