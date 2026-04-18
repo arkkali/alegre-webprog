@@ -16,6 +16,14 @@ const navLinkClassName = ({ isActive }) =>
       : 'text-slate-400 hover:text-white hover:bg-white/[0.03] rounded-md',
   ].join(' ');
 
+  const authLinkClassName = ({ isActive }) =>
+  [
+    "rounded-full border px-5 py-2 text-[11px] font-bold uppercase tracking-[0.24em] transition",
+    isActive
+      ? "border-white bg-white text-slate-950"
+      : "border-white/20 bg-transparent text-white hover:bg-white hover:text-slate-950",
+  ].join(" ");
+
 const NavBar = () => {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#090b26] shadow-2xl">
@@ -47,12 +55,16 @@ const NavBar = () => {
           ))}
         </nav>
 
-        <div className="flex md:hidden">
-          <button className="text-slate-400 hover:text-white transition-colors">
-            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </button>
+         <div className="flex items-center gap-3">
+          <NavLink to="/auth/signin" className={authLinkClassName}>
+            Sign In
+          </NavLink>
+          <NavLink
+            to="/auth/signup"
+            className="hidden text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 transition hover:text-white sm:block"
+          >
+            Register
+          </NavLink>
         </div>
       </div>
     </header>
