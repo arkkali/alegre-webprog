@@ -1,23 +1,20 @@
 import { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import Button from '../components/Button';
-
-// (Imports remain exactly as they are)
-import seles from '../assets/images/seles.jpg';
-import doImage from '../assets/images/d.o.jpg'; 
-import king from '../assets/images/king.jpg';
-import aiah from '../assets/images/aiah.jpg';
-import venom from '../assets/images/venom.jpg';
-import malenia from '../assets/images/malenia.jpg';
-import kiss from '../assets/images/kiss.jpg';
-import david from '../assets/images/david.jpg';
-import lucas from '../assets/images/lucas.jpg';
-import hand from '../assets/images/hand.jpg';
-import eye from '../assets/images/eye.png';
-import baby from '../assets/images/baby.png';
-import lips from '../assets/images/lips.jpg';
-import dahyun from '../assets/images/dahyun.png';
-import girl from '../assets/images/girl.png';
+import Button from '../../components/Button';
+import doImage from '../../assets/images/d.o.jpg'; 
+import king from '../../assets/images/king.jpg';
+import aiah from '../../assets/images/aiah.jpg';
+import venom from '../../assets/images/venom.jpg';
+import malenia from '../../assets/images/malenia.jpg';
+import kiss from '../../assets/images/kiss.jpg';
+import david from '../../assets/images/david.jpg';
+import lucas from '../../assets/images/lucas.jpg';
+import hand from '../../assets/images/hand.jpg';
+import eye from '../../assets/images/eye.png';
+import baby from '../../assets/images/baby.png';
+import lips from '../../assets/images/lips.jpg';
+import dahyun from '../../assets/images/dahyun.png';
+import girl from '../../assets/images/girl.png';
 
 const ArtViewPage = () => {
   const { id } = useParams();

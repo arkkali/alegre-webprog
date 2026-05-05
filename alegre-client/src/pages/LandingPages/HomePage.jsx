@@ -1,9 +1,9 @@
 import { useLocation } from "react-router-dom";
-import Button from "../components/Button";
-import me from "../assets/images/me.jpg";
-import seles from "../assets/images/seles.jpg";
-import doImage from "../assets/images/d.o.jpg";
-import king from "../assets/images/king.jpg";
+import Button from "../../components/Button";
+import me from "../../assets/images/me.jpg";
+import seles from "../../assets/images/seles.jpg";
+import doImage from "../../assets/images/d.o.jpg";
+import king from "../../assets/images/king.jpg";
 
 const HomePage = () => {
   const location = useLocation();

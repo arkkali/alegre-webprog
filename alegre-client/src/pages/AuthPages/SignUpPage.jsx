@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import Button from '../components/Button';
+import Button from '../../components/Button';
 
 const inputClasses = 'mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:bg-white/10';
 const actionButtonClassName = 'w-full rounded-xl py-3 text-[11px] tracking-[0.2em]';

@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
-import Button from "../components/Button.jsx";
-import ArticleList from "../components/ArticleList.jsx";
-import articles from "../assets/article-content.js";
+import Button from "../../components/Button.jsx";
+import ArticleList from "../../components/ArticleList.jsx";
+import articles from "../../assets/article-content.js";
 
 const ArticleListPage = () => {
   const location = useLocation();
