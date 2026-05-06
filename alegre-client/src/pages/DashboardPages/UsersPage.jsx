@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -22,6 +22,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@mui/icons-material/Add";
 import userRecords from "../../data/users.json";
 
+const USERS_STORAGE_KEY = "alegre-dashboard-users-v1";
+
 const ROLE_OPTIONS = ["Admin", "Editor", "User", "Viewer"];
 const GENDER_OPTIONS = ["Male", "Female", "Other"];
 
@@ -41,6 +43,18 @@ const emptyUserForm = {
 
 function normalizeRow(r) {
   return { ...r, address: r.address ?? "" };
+}
+
+function loadRowsFromStorage() {
+  try {
+    const raw = localStorage.getItem(USERS_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) return null;
+    return parsed.map((row) => normalizeRow(row));
+  } catch {
+    return null;
+  }
 }
 
 function validateUserForm(form, isEdit) {
@@ -110,9 +124,18 @@ const modalFieldSx = {
 };
 
 function UsersPage() {
-  const [rows, setRows] = useState(() =>
-    userRecords.map((r) => normalizeRow(r))
-  );
+  const [rows, setRows] = useState(() => {
+    const stored = loadRowsFromStorage();
+    if (stored) return stored;
+    return userRecords.map((r) => normalizeRow(r));
+  });
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: 5,
+  });
+  const [sortModel, setSortModel] = useState([
+    { field: "id", sort: "desc" },
+  ]);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [genderFilter, setGenderFilter] = useState("");
@@ -120,9 +143,17 @@ function UsersPage() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [form, setForm] = useState(emptyUserForm);
+  const [form, setForm] = useState(() => ({ ...emptyUserForm }));
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(rows));
+    } catch {
+      /* quota / private mode */
+    }
+  }, [rows]);
 
   const roles = useMemo(
     () => [...new Set([...ROLE_OPTIONS, ...rows.map((r) => r.role)])].sort(),
@@ -135,7 +166,7 @@ function UsersPage() {
 
   const filteredRows = useMemo(() => {
     const q = search.trim().toLowerCase();
-    return rows.filter((row) => {
+    const filtered = rows.filter((row) => {
       const matchesSearch =
         !q ||
         String(row.firstName).toLowerCase().includes(q) ||
@@ -147,6 +178,7 @@ function UsersPage() {
       const matchesStatus = !statusFilter || row.status === statusFilter;
       return matchesSearch && matchesRole && matchesGender && matchesStatus;
     });
+    return filtered;
   }, [search, roleFilter, genderFilter, statusFilter, rows]);
 
   const openAdd = useCallback(() => {
@@ -225,6 +257,14 @@ function UsersPage() {
         const nextId = Math.max(0, ...prev.map((r) => r.id)) + 1;
         return [...prev, { id: nextId, ...payload }];
       });
+    }
+    setPaginationModel((m) => ({ ...m, page: 0 }));
+    setSortModel([{ field: "id", sort: "desc" }]);
+    if (!isEdit) {
+      setSearch("");
+      setRoleFilter("");
+      setGenderFilter("");
+      setStatusFilter("");
     }
     closeDialog();
   };
@@ -480,17 +520,41 @@ function UsersPage() {
               rows={filteredRows}
               columns={columns}
               pageSizeOptions={[5, 10]}
-              initialState={{
-                pagination: {
-                  paginationModel: { pageSize: 5, page: 0 },
-                },
-              }}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+              sortModel={sortModel}
+              onSortModelChange={setSortModel}
               checkboxSelection
               disableRowSelectionOnClick
               sx={{
                 backgroundColor: "#0c0e2f",
                 color: "white",
                 border: "none",
+                // Sort arrows: hide until hovering the header (or keyboard focus inside it)
+                "@media (hover: hover)": {
+                  "& .MuiDataGrid-columnHeader .MuiDataGrid-iconButtonContainer": {
+                    opacity: 0,
+                    transition: "opacity 140ms ease",
+                  },
+                  "& .MuiDataGrid-columnHeader:hover .MuiDataGrid-iconButtonContainer":
+                    {
+                      opacity: 1,
+                    },
+                  "& .MuiDataGrid-columnHeader:focus-within .MuiDataGrid-iconButtonContainer":
+                    {
+                      opacity: 1,
+                    },
+                  "& .MuiDataGrid-columnHeader .MuiDataGrid-sortIcon": {
+                    opacity: 0,
+                    transition: "opacity 140ms ease",
+                  },
+                  "& .MuiDataGrid-columnHeader:hover .MuiDataGrid-sortIcon": {
+                    opacity: 1,
+                  },
+                  "& .MuiDataGrid-columnHeader:focus-within .MuiDataGrid-sortIcon": {
+                    opacity: 1,
+                  },
+                },
                 "& .MuiDataGrid-root": {
                   backgroundColor: "#0c0e2f",
                   color: "white",
@@ -746,6 +810,7 @@ function UsersPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5, gap: 1 }}>
           <Button
+            type="button"
             onClick={closeDialog}
             sx={{
               color: "rgba(255,255,255,0.75)",
@@ -757,6 +822,7 @@ function UsersPage() {
             Cancel
           </Button>
           <Button
+            type="button"
             variant="contained"
             onClick={handleSaveUser}
             sx={{
