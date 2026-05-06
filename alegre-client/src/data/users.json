@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@email.com",
+    "username": "johndoe",
+    "role": "Admin",
+    "age": 28,
+    "gender": "Male",
+    "status": "active",
+    "contact": "09171234567"
+  },
+  {
+    "id": 2,
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane@email.com",
+    "username": "janesmith",
+    "role": "Editor",
+    "age": 32,
+    "gender": "Female",
+    "status": "active",
+    "contact": "09181234567"
+  },
+  {
+    "id": 3,
+    "firstName": "Mark",
+    "lastName": "Lee",
+    "email": "mark@email.com",
+    "username": "marklee",
+    "role": "User",
+    "age": 24,
+    "gender": "Male",
+    "status": "inactive",
+    "contact": "09191234567"
+  },
+  {
+    "id": 4,
+    "firstName": "Anna",
+    "lastName": "Kim",
+    "email": "anna@email.com",
+    "username": "annakim",
+    "role": "User",
+    "age": 29,
+    "gender": "Female",
+    "status": "active",
+    "contact": "09201234567"
+  },
+  {
+    "id": 5,
+    "firstName": "Paul",
+    "lastName": "Walker",
+    "email": "paul@email.com",
+    "username": "paulw",
+    "role": "Admin",
+    "age": 40,
+    "gender": "Male",
+    "status": "inactive",
+    "contact": "09211234567"
+  },
+  {
+    "id": 6,
+    "firstName": "Chris",
+    "lastName": "Evans",
+    "email": "chris@email.com",
+    "username": "chrisevans",
+    "role": "User",
+    "age": 35,
+    "gender": "Male",
+    "status": "active",
+    "contact": "09221234567"
+  }
+]
