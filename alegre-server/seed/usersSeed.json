@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "firstName": "John",
     "lastName": "Doe",
     "email": "john@email.com",
@@ -9,10 +8,10 @@
     "age": 28,
     "gender": "Male",
     "status": "active",
-    "contact": "09171234567"
+    "contact": "09171234567",
+    "password": "Password123"
   },
   {
-    "id": 2,
     "firstName": "Jane",
     "lastName": "Smith",
     "email": "jane@email.com",
@@ -21,10 +20,10 @@
     "age": 32,
     "gender": "Female",
     "status": "active",
-    "contact": "09181234567"
+    "contact": "09181234567",
+    "password": "Password123"
   },
   {
-    "id": 3,
     "firstName": "Mark",
     "lastName": "Lee",
     "email": "mark@email.com",
@@ -33,10 +32,10 @@
     "age": 24,
     "gender": "Male",
     "status": "inactive",
-    "contact": "09191234567"
+    "contact": "09191234567",
+    "password": "Password123"
   },
   {
-    "id": 4,
     "firstName": "Anna",
     "lastName": "Kim",
     "email": "anna@email.com",
@@ -45,10 +44,10 @@
     "age": 29,
     "gender": "Female",
     "status": "active",
-    "contact": "09201234567"
+    "contact": "09201234567",
+    "password": "Password123"
   },
   {
-    "id": 5,
     "firstName": "Paul",
     "lastName": "Walker",
     "email": "paul@email.com",
@@ -57,10 +56,10 @@
     "age": 40,
     "gender": "Male",
     "status": "inactive",
-    "contact": "09211234567"
+    "contact": "09211234567",
+    "password": "Password123"
   },
   {
-    "id": 6,
     "firstName": "Chris",
     "lastName": "Evans",
     "email": "chris@email.com",
@@ -69,6 +68,19 @@
     "age": 35,
     "gender": "Male",
     "status": "active",
-    "contact": "09221234567"
+    "contact": "09221234567",
+    "password": "Password123"
+  },
+  {
+    "firstName": "Guest",
+    "lastName": "Viewer",
+    "email": "viewer@email.com",
+    "username": "guestview",
+    "role": "Viewer",
+    "age": 22,
+    "gender": "Other",
+    "status": "active",
+    "contact": "09300000000",
+    "password": "Password123"
   }
 ]

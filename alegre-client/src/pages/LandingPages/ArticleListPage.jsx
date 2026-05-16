@@ -1,11 +1,8 @@
-import { useLocation } from "react-router-dom";
 import Button from "../../components/Button.jsx";
 import ArticleList from "../../components/ArticleList.jsx";
 import articles from "../../assets/article-content.js";
 
 const ArticleListPage = () => {
-  const location = useLocation();
-
   return (
     <div className="relative min-h-screen w-full flex flex-col gap-10 bg-[#0c0e2f] overflow-x-hidden">
       <div className="relative z-10">

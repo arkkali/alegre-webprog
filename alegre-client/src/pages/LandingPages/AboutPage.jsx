@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Button from "../../components/Button";
 import id2 from "../../assets/images/id2.jpg";
 

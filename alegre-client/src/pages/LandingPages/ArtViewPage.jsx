@@ -15,6 +15,7 @@ import baby from '../../assets/images/baby.png';
 import lips from '../../assets/images/lips.jpg';
 import dahyun from '../../assets/images/dahyun.png';
 import girl from '../../assets/images/girl.png';
+import seles from '../../assets/images/seles.jpg';
 
 const ArtViewPage = () => {
   const { id } = useParams();

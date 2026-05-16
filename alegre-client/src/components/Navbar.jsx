@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
+import { useAuth } from '../hooks/useAuth.js';
 
 const links = [
   { label: 'Home', to: '/' },
@@ -26,6 +27,14 @@ const navLinkClassName = ({ isActive }) =>
   ].join(" ");
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleSignOut = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#090b26] shadow-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
@@ -57,15 +66,32 @@ const NavBar = () => {
         </nav>
 
          <div className="flex items-center gap-3">
-          <NavLink to="/auth/signin" className={authLinkClassName}>
-            Sign In
-          </NavLink>
-          <NavLink
-            to="/auth/signup"
-            className="hidden text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 transition hover:text-white sm:block"
-          >
-            Register
-          </NavLink>
+          {user ? (
+            <>
+              <span className="hidden text-[11px] uppercase tracking-[0.16em] text-slate-500 sm:inline max-w-[140px] truncate" title={user.email}>
+                {user.firstName ? `${user.firstName}` : user.email}
+              </span>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="rounded-full border border-white/20 px-5 py-2 text-[11px] font-bold uppercase tracking-[0.24em] text-white transition hover:bg-white hover:text-slate-950"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/auth/signin" className={authLinkClassName}>
+                Sign In
+              </NavLink>
+              <NavLink
+                to="/auth/signup"
+                className="hidden text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 transition hover:text-white sm:block"
+              >
+                Register
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </header>

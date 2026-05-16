@@ -11,9 +11,11 @@ import SignInPage from "./pages/AuthPages/SignInPage";
 import SignUpPage from "./pages/AuthPages/SignUpPage";
 import DashboardPage from "./pages/DashboardPages/DashboardPage";
 import ReportsPage from "./pages/DashboardPages/ReportsPage";
-import UsersPage from "./pages/DashboardPages/UsersPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import DashLayout from "./layouts/DashLayout";
+import RequireAuth from "./components/RequireAuth";
+import UsersRoute from "./components/UsersRoute";
+import DashArticleListPage from "./pages/DashboardPages/DashArticleListPage";
 const routes = [
   {
     path: "/",
@@ -41,7 +43,11 @@ const routes = [
   },
   {
     path: "dashboard",
-    element: <DashLayout/>,
+    element: (
+      <RequireAuth>
+        <DashLayout />
+      </RequireAuth>
+    ),
     errorElement: <NotFoundPage />,
     children: [
       { index: true, 
@@ -50,8 +56,12 @@ const routes = [
       { path: "reports", 
         element: <ReportsPage />,
       },
+      {
+        path: "articles",
+        element: <DashArticleListPage />,
+      },
       { path: "users", 
-        element: <UsersPage />
+        element: <UsersRoute />
       },
     ]
   },

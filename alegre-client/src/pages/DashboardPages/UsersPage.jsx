@@ -20,9 +20,7 @@ import Chip from "@mui/material/Chip";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AddIcon from "@mui/icons-material/Add";
-import userRecords from "../../data/users.json";
-
-const USERS_STORAGE_KEY = "alegre-dashboard-users-v1";
+import api from "../../lib/api.js";
 
 const ROLE_OPTIONS = ["Admin", "Editor", "User", "Viewer"];
 const GENDER_OPTIONS = ["Male", "Female", "Other"];
@@ -43,18 +41,6 @@ const emptyUserForm = {
 
 function normalizeRow(r) {
   return { ...r, address: r.address ?? "" };
-}
-
-function loadRowsFromStorage() {
-  try {
-    const raw = localStorage.getItem(USERS_STORAGE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) return null;
-    return parsed.map((row) => normalizeRow(row));
-  } catch {
-    return null;
-  }
 }
 
 function validateUserForm(form, isEdit) {
@@ -124,11 +110,9 @@ const modalFieldSx = {
 };
 
 function UsersPage() {
-  const [rows, setRows] = useState(() => {
-    const stored = loadRowsFromStorage();
-    if (stored) return stored;
-    return userRecords.map((r) => normalizeRow(r));
-  });
+  const [rows, setRows] = useState([]);
+  const [listLoading, setListLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
@@ -148,12 +132,29 @@ function UsersPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    try {
-      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(rows));
-    } catch {
-      /* quota / private mode */
-    }
-  }, [rows]);
+    let cancelled = false;
+    (async () => {
+      setListLoading(true);
+      setFetchError(null);
+      try {
+        const { data } = await api.get("/users");
+        if (!cancelled) {
+          setRows((data.users || []).map((r) => normalizeRow(r)));
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setFetchError(
+            e.response?.data?.message || "Failed to load users from the server."
+          );
+        }
+      } finally {
+        if (!cancelled) setListLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const roles = useMemo(
     () => [...new Set([...ROLE_OPTIONS, ...rows.map((r) => r.role)])].sort(),
@@ -209,18 +210,24 @@ function UsersPage() {
     setDialogOpen(true);
   }, []);
 
-  const toggleUserStatus = useCallback((id) => {
-    setRows((prev) =>
-      prev.map((r) =>
-        r.id === id
-          ? {
-              ...r,
-              status: r.status === "active" ? "inactive" : "active",
-            }
-          : r
-      )
-    );
-  }, []);
+  const toggleUserStatus = useCallback(
+    async (id) => {
+      const row = rows.find((r) => r.id === id);
+      if (!row) return;
+      const nextStatus = row.status === "active" ? "inactive" : "active";
+      try {
+        const { data } = await api.patch(`/api/users/${id}`, {
+          status: nextStatus,
+        });
+        setRows((prev) =>
+          prev.map((r) => (r.id === id ? normalizeRow(data.user) : r))
+        );
+      } catch (e) {
+        alert(e.response?.data?.message || "Could not update status.");
+      }
+    },
+    [rows]
+  );
 
   const closeDialog = () => {
     setDialogOpen(false);
@@ -228,7 +235,7 @@ function UsersPage() {
     setErrors({});
   };
 
-  const handleSaveUser = () => {
+  const handleSaveUser = async () => {
     const isEdit = editingId != null;
     const nextErrors = validateUserForm(form, isEdit);
     setErrors(nextErrors);
@@ -248,25 +255,39 @@ function UsersPage() {
       address: form.address.trim(),
     };
 
-    if (isEdit) {
-      setRows((prev) =>
-        prev.map((r) => (r.id === editingId ? { ...r, ...payload } : r))
-      );
-    } else {
-      setRows((prev) => {
-        const nextId = Math.max(0, ...prev.map((r) => r.id)) + 1;
-        return [...prev, { id: nextId, ...payload }];
-      });
+    try {
+      if (isEdit) {
+        const body = {
+          ...payload,
+          ...(form.password && form.password.length >= 8
+            ? { password: form.password }
+            : {}),
+        };
+        const { data } = await api.patch(`/api/users/${editingId}`, body);
+        setRows((prev) =>
+          prev.map((r) =>
+            r.id === editingId ? normalizeRow(data.user) : r
+          )
+        );
+      } else {
+        const { data } = await api.post("/api/users", {
+          ...payload,
+          password: form.password,
+        });
+        setRows((prev) => [normalizeRow(data.user), ...prev]);
+      }
+      setPaginationModel((m) => ({ ...m, page: 0 }));
+      setSortModel([{ field: "id", sort: "desc" }]);
+      if (!isEdit) {
+        setSearch("");
+        setRoleFilter("");
+        setGenderFilter("");
+        setStatusFilter("");
+      }
+      closeDialog();
+    } catch (e) {
+      alert(e.response?.data?.message || "Could not save user.");
     }
-    setPaginationModel((m) => ({ ...m, page: 0 }));
-    setSortModel([{ field: "id", sort: "desc" }]);
-    if (!isEdit) {
-      setSearch("");
-      setRoleFilter("");
-      setGenderFilter("");
-      setStatusFilter("");
-    }
-    closeDialog();
   };
 
   const columns = useMemo(
@@ -414,6 +435,12 @@ function UsersPage() {
           </Button>
         </div>
 
+        {fetchError && (
+          <div className="mb-6 rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+            {fetchError}
+          </div>
+        )}
+
         <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 mb-6">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400 mb-4">
             Search &amp; filters
@@ -515,6 +542,14 @@ function UsersPage() {
         </div>
 
         <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 overflow-hidden">
+          {listLoading ? (
+            <div
+              className="flex items-center justify-center text-slate-400 text-sm"
+              style={{ height: 500, width: "100%" }}
+            >
+              Loading users…
+            </div>
+          ) : (
           <div style={{ height: 500, width: "100%" }}>
             <DataGrid
               rows={filteredRows}
@@ -602,6 +637,7 @@ function UsersPage() {
               }}
             />
           </div>
+          )}
         </div>
       </div>
 

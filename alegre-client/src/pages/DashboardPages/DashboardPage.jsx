@@ -1,5 +1,4 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { DataGrid } from "@mui/x-data-grid";
 import { Gauge } from "@mui/x-charts/Gauge";
@@ -64,8 +63,6 @@ const rows = [
 ];
 
 function DashboardPage() {
-  const location = useLocation();
-
   const totalUsers = rows.length;
   const validAges = rows.filter((row) => row.age !== null);
   const avgAge =

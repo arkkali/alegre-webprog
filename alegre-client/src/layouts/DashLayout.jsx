@@ -25,6 +25,7 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import Button from "@mui/material/Button";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import ArticleIcon from "@mui/icons-material/Article";
+import { useAuth } from "../hooks/useAuth.js";
 
 const drawerWidth = 240;
 const dashboardNavItems = [
@@ -39,6 +40,12 @@ const dashboardNavItems = [
     title: "Reports",
     to: "/dashboard/reports",
     icon: AssessmentIcon,
+  },
+  {
+    label: "Articles",
+    title: "Articles",
+    to: "/dashboard/articles",
+    icon: ArticleIcon,
   },
   {
     label: "Users",
@@ -170,6 +177,13 @@ const DashLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
+  const visibleNavItems = dashboardNavItems.filter((item) => {
+    if (item.to === "/dashboard/users" && user?.role === "Editor") {
+      return false;
+    }
+    return true;
+  });
   const pageTitle = getPageTitle(location.pathname);
   const navigate = useNavigate();
 
@@ -182,6 +196,7 @@ const DashLayout = () => {
   };
 
   const handleLogout = () => {
+    logout();
     navigate("/");
   };
 
@@ -240,7 +255,9 @@ const DashLayout = () => {
           <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.1)" }} />
           {/* Drawer List */}
           <List sx={{ color: "white" }}>
-            {dashboardNavItems.map(({ label, to, icon: Icon }) => (
+            {visibleNavItems.map(({ label, to, icon }) => {
+              const NavIcon = icon;
+              return (
               <ListItem key={to} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   component={Link}
@@ -271,7 +288,7 @@ const DashLayout = () => {
                       color: "inherit",
                     }}
                   >
-                    <Icon />
+                    <NavIcon />
                   </ListItemIcon>
                   <ListItemText
                     primary={label}
@@ -279,7 +296,8 @@ const DashLayout = () => {
                   />
                 </ListItemButton>
               </ListItem>
-            ))}
+              );
+            })}
           </List>
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3, backgroundColor: "#0c0e2f" }}>
