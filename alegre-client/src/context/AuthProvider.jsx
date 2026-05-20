@@ -6,15 +6,14 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => sessionStorage.getItem(TOKEN_KEY));
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(
-    // If there's an existing token on fresh load, start as loading
-    () => !!sessionStorage.getItem(TOKEN_KEY)
+    () => !!sessionStorage.getItem(TOKEN_KEY),
   );
 
   const user = token ? authUser : null;
 
   useEffect(() => {
     if (!token) {
-      setLoading(false); // Make sure loading stops if there's no token
+      setLoading(false);
       return;
     }
 
@@ -23,8 +22,6 @@ export function AuthProvider({ children }) {
     const run = async () => {
       await Promise.resolve();
       if (cancelled) return;
-      
-      // Ensure loading is true when fetching user data
       setLoading(true);
       try {
         const { data } = await api.get("/auth/me");
@@ -49,8 +46,7 @@ export function AuthProvider({ children }) {
   const login = useCallback((newToken) => {
     sessionStorage.setItem(TOKEN_KEY, newToken);
     setAuthUser(null);
-    // FIX: Set loading to true immediately so RequireAuth knows to wait for /auth/me
-    setLoading(true); 
+    setLoading(true);
     setToken(newToken);
   }, []);
 
@@ -70,10 +66,8 @@ export function AuthProvider({ children }) {
       login,
       logout,
     }),
-    [user, token, loading, login, logout]
+    [user, token, loading, login, logout],
   );
 
-  return (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -14,7 +14,6 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// ✅ These TWO lines must be FIRST, before everything else
 app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
 

@@ -209,8 +209,6 @@ const DashLayout = () => {
         sx={{ display: "flex", backgroundColor: "#0c0e2f", minHeight: "100vh" }}
       >
         <CssBaseline />
-        {/* App Bar */}
-        {/* <AppBar position="fixed" open={open}> */}
         <AppBar position="fixed">
           <Toolbar sx={{ color: "white" }}>
             <IconButton
@@ -218,7 +216,6 @@ const DashLayout = () => {
               aria-label="open drawer"
               onClick={open ? handleDrawerClose : handleDrawerOpen}
               edge="start"
-              // Just use a normal object here
               sx={{ marginRight: 5 }}
             >
               {open ? <MenuOpenIcon /> : <MenuIcon />}
@@ -231,7 +228,6 @@ const DashLayout = () => {
             >
               {pageTitle}
             </Typography>
-            {/* Search */}
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -251,7 +247,6 @@ const DashLayout = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        {/* Drawer */}
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
             <IconButton
@@ -266,7 +261,6 @@ const DashLayout = () => {
             </IconButton>
           </DrawerHeader>
           <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.1)" }} />
-          {/* Drawer List */}
           <List sx={{ color: "white" }}>
             {visibleNavItems.map(({ label, to, icon }) => {
               const NavIcon = icon;
@@ -318,7 +312,6 @@ const DashLayout = () => {
           sx={{ flexGrow: 1, p: 3, backgroundColor: "#0c0e2f" }}
         >
           <DrawerHeader />
-          {/* Content */}
           <Outlet />
         </Box>
       </Box>
