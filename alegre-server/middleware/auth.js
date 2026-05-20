@@ -30,7 +30,7 @@ export function signToken(userDoc) {
       email: userDoc.email,
     },
     getSecret(),
-    { expiresIn: "7d" }
+    { expiresIn: "7d" },
   );
 }
 
@@ -39,6 +39,13 @@ export function forbidEditor(req, res, next) {
     return res
       .status(403)
       .json({ message: "Editors cannot access user management." });
+  }
+  next();
+}
+
+export function requireAdmin(req, res, next) {
+  if (req.userRole !== "Admin") {
+    return res.status(403).json({ message: "Admin access required." });
   }
   next();
 }

@@ -179,7 +179,10 @@ const DashLayout = () => {
   const location = useLocation();
   const { user, logout } = useAuth();
   const visibleNavItems = dashboardNavItems.filter((item) => {
-    if (item.to === "/dashboard/users" && user?.role === "Editor") {
+    if (item.to === "/dashboard/users" && user?.role !== "Admin") {
+      return false;
+    }
+    if (!["Admin", "Editor"].includes(user?.role)) {
       return false;
     }
     return true;
@@ -202,7 +205,9 @@ const DashLayout = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", backgroundColor: "#0c0e2f", minHeight: "100vh" }}>
+      <Box
+        sx={{ display: "flex", backgroundColor: "#0c0e2f", minHeight: "100vh" }}
+      >
         <CssBaseline />
         {/* App Bar */}
         {/* <AppBar position="fixed" open={open}> */}
@@ -236,7 +241,12 @@ const DashLayout = () => {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-            <Button color="inherit" variant="outlined" onClick={handleLogout} sx={{ color: "white", borderColor: "rgba(255, 255, 255, 0.3)" }}>
+            <Button
+              color="inherit"
+              variant="outlined"
+              onClick={handleLogout}
+              sx={{ color: "white", borderColor: "rgba(255, 255, 255, 0.3)" }}
+            >
               Logout
             </Button>
           </Toolbar>
@@ -244,7 +254,10 @@ const DashLayout = () => {
         {/* Drawer */}
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
-            <IconButton onClick={handleDrawerClose} sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
+            <IconButton
+              onClick={handleDrawerClose}
+              sx={{ color: "rgba(255, 255, 255, 0.7)" }}
+            >
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
@@ -258,49 +271,52 @@ const DashLayout = () => {
             {visibleNavItems.map(({ label, to, icon }) => {
               const NavIcon = icon;
               return (
-              <ListItem key={to} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  component={Link}
-                  to={to}
-                  selected={location.pathname === to}
-                  sx={{
-                    minHeight: 48,
-                    px: 2.5,
-                    justifyContent: open ? "initial" : "center",
-                    color: "rgba(255, 255, 255, 0.7)",
-                    "&.Mui-selected": {
-                      backgroundColor: "rgba(59, 130, 246, 0.2)",
-                      color: "rgb(96, 165, 250)",
-                      "&:hover": {
-                        backgroundColor: "rgba(59, 130, 246, 0.3)",
-                      },
-                    },
-                    "&:hover": {
-                      backgroundColor: "rgba(255, 255, 255, 0.05)",
-                    },
-                  }}
-                >
-                  <ListItemIcon
+                <ListItem key={to} disablePadding sx={{ display: "block" }}>
+                  <ListItemButton
+                    component={Link}
+                    to={to}
+                    selected={location.pathname === to}
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      color: "inherit",
+                      minHeight: 48,
+                      px: 2.5,
+                      justifyContent: open ? "initial" : "center",
+                      color: "rgba(255, 255, 255, 0.7)",
+                      "&.Mui-selected": {
+                        backgroundColor: "rgba(59, 130, 246, 0.2)",
+                        color: "rgb(96, 165, 250)",
+                        "&:hover": {
+                          backgroundColor: "rgba(59, 130, 246, 0.3)",
+                        },
+                      },
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.05)",
+                      },
                     }}
                   >
-                    <NavIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={label}
-                    sx={{ opacity: open ? 1 : 0, color: "inherit" }}
-                  />
-                </ListItemButton>
-              </ListItem>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                        color: "inherit",
+                      }}
+                    >
+                      <NavIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={label}
+                      sx={{ opacity: open ? 1 : 0, color: "inherit" }}
+                    />
+                  </ListItemButton>
+                </ListItem>
               );
             })}
           </List>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, backgroundColor: "#0c0e2f" }}>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3, backgroundColor: "#0c0e2f" }}
+        >
           <DrawerHeader />
           {/* Content */}
           <Outlet />

@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { User } from "../models/User.js";
-import { forbidEditor, requireAuth } from "../middleware/auth.js";
+import { requireAdmin, requireAuth } from "../middleware/auth.js";
 import { formatUser } from "../utils/formatUser.js";
 
 const router = Router();
 
 router.use(requireAuth);
-router.use(forbidEditor);
+router.use(requireAdmin);
 
 router.get("/", async (req, res) => {
   try {
@@ -47,11 +47,12 @@ router.post("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select("+password");
+    const user = await User.findOne({ customId: req.params.id }).select(
+      "+password",
+    );
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
-
     const b = req.body;
     if (b.firstName != null) user.firstName = String(b.firstName).trim();
     if (b.lastName != null) user.lastName = String(b.lastName).trim();
@@ -68,7 +69,6 @@ router.patch("/:id", async (req, res) => {
     if (b.password && String(b.password).length >= 8) {
       user.password = b.password;
     }
-
     await user.save();
     res.json({ user: formatUser(user) });
   } catch (e) {

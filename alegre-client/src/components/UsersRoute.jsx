@@ -4,7 +4,7 @@ import UsersPage from "../pages/DashboardPages/UsersPage.jsx";
 
 function UsersRoute() {
   const { user } = useAuth();
-  if (user?.role === "Editor") {
+  if (user?.role !== "Admin") {
     return <Navigate to="/dashboard" replace />;
   }
   return <UsersPage />;

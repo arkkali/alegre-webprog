@@ -216,7 +216,7 @@ function UsersPage() {
       if (!row) return;
       const nextStatus = row.status === "active" ? "inactive" : "active";
       try {
-        const { data } = await api.patch(`/api/users/${id}`, {
+        const { data } = await api.patch(`/users/${id}`, {
           status: nextStatus,
         });
         setRows((prev) =>
@@ -263,14 +263,14 @@ function UsersPage() {
             ? { password: form.password }
             : {}),
         };
-        const { data } = await api.patch(`/api/users/${editingId}`, body);
+        const { data } = await api.patch(`/users/${editingId}`, body);
         setRows((prev) =>
           prev.map((r) =>
             r.id === editingId ? normalizeRow(data.user) : r
           )
         );
       } else {
-        const { data } = await api.post("/api/users", {
+        const { data } = await api.post("/users", {
           ...payload,
           password: form.password,
         });

@@ -1,24 +1,24 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import logo from '../assets/images/logo.png';
-import { useAuth } from '../hooks/useAuth.js';
+import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../assets/images/logo.png";
+import { useAuth } from "../hooks/useAuth.js";
 
 const links = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Articles', to: '/articles' },
-  { label: 'Other Works', to: '/OtherWorks' },
-  { label: 'Dashboard', to: '/dashboard' },
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Articles", to: "/articles" },
+  { label: "Other Works", to: "/OtherWorks" },
+  { label: "Dashboard", to: "/dashboard", roles: ["Admin", "Editor"] },
 ];
 
 const navLinkClassName = ({ isActive }) =>
   [
-    'relative px-5 py-2 text-[11px] font-bold uppercase tracking-[0.3em] transition-all duration-300 ease-in-out',
-    isActive 
-      ? 'text-white bg-white/5 rounded-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' 
-      : 'text-slate-400 hover:text-white hover:bg-white/[0.03] rounded-md',
-  ].join(' ');
+    "relative px-5 py-2 text-[11px] font-bold uppercase tracking-[0.3em] transition-all duration-300 ease-in-out",
+    isActive
+      ? "text-white bg-white/5 rounded-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]"
+      : "text-slate-400 hover:text-white hover:bg-white/[0.03] rounded-md",
+  ].join(" ");
 
-  const authLinkClassName = ({ isActive }) =>
+const authLinkClassName = ({ isActive }) =>
   [
     "rounded-full border px-5 py-2 text-[11px] font-bold uppercase tracking-[0.24em] transition",
     isActive
@@ -30,34 +30,43 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
+  const visibleLinks = links.filter((link) => {
+    if (!link.roles) return true;
+    return user?.role && link.roles.includes(user.role);
+  });
+
   const handleSignOut = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#090b26] shadow-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
-        
-        <NavLink to="/" className="group flex items-center gap-4 transition-transform hover:scale-[1.01]">
-          <img 
-            src={logo} 
-            alt="ARKKALI Logo" 
-            className="h-10 w-auto object-contain" 
+        <NavLink
+          to="/"
+          className="group flex items-center gap-4 transition-transform hover:scale-[1.01]"
+        >
+          <img
+            src={logo}
+            alt="ARKKALI Logo"
+            className="h-10 w-auto object-contain"
           />
-          <h1 
-            className="text-2xl tracking-[0.1em] text-white" 
-            style={{ fontFamily: '"Copperplate", "Copperplate Gothic Light", serif' }}
+          <h1
+            className="text-2xl tracking-[0.1em] text-white"
+            style={{
+              fontFamily: '"Copperplate", "Copperplate Gothic Light", serif',
+            }}
           >
             ARKKALI
           </h1>
         </NavLink>
         <nav className="hidden items-center gap-6 md:flex">
-          {links.map((link) => (
-            <NavLink 
-              key={link.to} 
-              to={link.to} 
-              end={link.to === '/'} 
+          {visibleLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === "/"}
               className={navLinkClassName}
             >
               {link.label}
@@ -65,10 +74,13 @@ const NavBar = () => {
           ))}
         </nav>
 
-         <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
           {user ? (
             <>
-              <span className="hidden text-[11px] uppercase tracking-[0.16em] text-slate-500 sm:inline max-w-[140px] truncate" title={user.email}>
+              <span
+                className="hidden text-[11px] uppercase tracking-[0.16em] text-slate-500 sm:inline max-w-[140px] truncate"
+                title={user.email}
+              >
                 {user.firstName ? `${user.firstName}` : user.email}
               </span>
               <button
