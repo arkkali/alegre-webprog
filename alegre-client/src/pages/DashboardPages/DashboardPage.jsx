@@ -191,13 +191,13 @@ function DashboardPage() {
               height={220}
               margin={{ top: 0, bottom: 0, left: 0, right: 0 }}
               slotProps={{
-                  legend: {
-                    hidden: false,
-                    labelStyle: {
-                      fill: "rgb(249, 249, 249)",
-                    },
+                legend: {
+                  hidden: false,
+                  labelStyle: {
+                    fill: "rgb(249, 249, 249)",
                   },
-                }}
+                },
+              }}
               sx={{
                 "& text": { fill: "rgb(255, 255, 255) !important" },
                 "& .MuiChartsLegend-root": {
