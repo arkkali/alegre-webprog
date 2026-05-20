@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDb from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import articleRoutes from "./routes/articleRoutes.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/articles", articleRoutes);
 
 const PORT = Number(process.env.PORT) || 5000;
 connectDb()

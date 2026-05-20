@@ -117,9 +117,7 @@ function UsersPage() {
     page: 0,
     pageSize: 5,
   });
-  const [sortModel, setSortModel] = useState([
-    { field: "id", sort: "desc" },
-  ]);
+  const [sortModel, setSortModel] = useState([{ field: "id", sort: "desc" }]);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [genderFilter, setGenderFilter] = useState("");
@@ -144,7 +142,8 @@ function UsersPage() {
       } catch (e) {
         if (!cancelled) {
           setFetchError(
-            e.response?.data?.message || "Failed to load users from the server."
+            e.response?.data?.message ||
+              "Failed to load users from the server.",
           );
         }
       } finally {
@@ -158,11 +157,12 @@ function UsersPage() {
 
   const roles = useMemo(
     () => [...new Set([...ROLE_OPTIONS, ...rows.map((r) => r.role)])].sort(),
-    [rows]
+    [rows],
   );
   const genders = useMemo(
-    () => [...new Set([...GENDER_OPTIONS, ...rows.map((r) => r.gender)])].sort(),
-    [rows]
+    () =>
+      [...new Set([...GENDER_OPTIONS, ...rows.map((r) => r.gender)])].sort(),
+    [rows],
   );
 
   const filteredRows = useMemo(() => {
@@ -220,13 +220,13 @@ function UsersPage() {
           status: nextStatus,
         });
         setRows((prev) =>
-          prev.map((r) => (r.id === id ? normalizeRow(data.user) : r))
+          prev.map((r) => (r.id === id ? normalizeRow(data.user) : r)),
         );
       } catch (e) {
         alert(e.response?.data?.message || "Could not update status.");
       }
     },
-    [rows]
+    [rows],
   );
 
   const closeDialog = () => {
@@ -265,9 +265,7 @@ function UsersPage() {
         };
         const { data } = await api.patch(`/users/${editingId}`, body);
         setRows((prev) =>
-          prev.map((r) =>
-            r.id === editingId ? normalizeRow(data.user) : r
-          )
+          prev.map((r) => (r.id === editingId ? normalizeRow(data.user) : r)),
         );
       } else {
         const { data } = await api.post("/users", {
@@ -316,9 +314,7 @@ function UsersPage() {
                   ? "rgba(34, 197, 94, 0.22)"
                   : "rgba(255, 255, 255, 0.08)",
                 color: active ? "#4ade80" : "rgba(255, 255, 255, 0.75)",
-                border: active
-                  ? "none"
-                  : "1px solid rgba(255, 255, 255, 0.22)",
+                border: active ? "none" : "1px solid rgba(255, 255, 255, 0.22)",
               }}
             />
           );
@@ -377,8 +373,7 @@ function UsersPage() {
                   params.row.status === "active"
                     ? "rgba(251, 146, 60, 0.75)"
                     : "rgba(74, 222, 128, 0.75)",
-                color:
-                  params.row.status === "active" ? "#fb923c" : "#4ade80",
+                color: params.row.status === "active" ? "#fb923c" : "#4ade80",
                 "&:hover": {
                   borderColor:
                     params.row.status === "active"
@@ -397,7 +392,7 @@ function UsersPage() {
         ),
       },
     ],
-    [openEdit, toggleUserStatus]
+    [openEdit, toggleUserStatus],
   );
 
   return (
@@ -550,93 +545,94 @@ function UsersPage() {
               Loading users…
             </div>
           ) : (
-          <div style={{ height: 500, width: "100%" }}>
-            <DataGrid
-              rows={filteredRows}
-              columns={columns}
-              pageSizeOptions={[5, 10]}
-              paginationModel={paginationModel}
-              onPaginationModelChange={setPaginationModel}
-              sortModel={sortModel}
-              onSortModelChange={setSortModel}
-              checkboxSelection
-              disableRowSelectionOnClick
-              sx={{
-                backgroundColor: "#0c0e2f",
-                color: "white",
-                border: "none",
-                // Sort arrows: hide until hovering the header (or keyboard focus inside it)
-                "@media (hover: hover)": {
-                  "& .MuiDataGrid-columnHeader .MuiDataGrid-iconButtonContainer": {
-                    opacity: 0,
-                    transition: "opacity 140ms ease",
-                  },
-                  "& .MuiDataGrid-columnHeader:hover .MuiDataGrid-iconButtonContainer":
-                    {
-                      opacity: 1,
-                    },
-                  "& .MuiDataGrid-columnHeader:focus-within .MuiDataGrid-iconButtonContainer":
-                    {
-                      opacity: 1,
-                    },
-                  "& .MuiDataGrid-columnHeader .MuiDataGrid-sortIcon": {
-                    opacity: 0,
-                    transition: "opacity 140ms ease",
-                  },
-                  "& .MuiDataGrid-columnHeader:hover .MuiDataGrid-sortIcon": {
-                    opacity: 1,
-                  },
-                  "& .MuiDataGrid-columnHeader:focus-within .MuiDataGrid-sortIcon": {
-                    opacity: 1,
-                  },
-                },
-                "& .MuiDataGrid-root": {
+            <div style={{ height: 500, width: "100%" }}>
+              <DataGrid
+                rows={filteredRows}
+                columns={columns}
+                pageSizeOptions={[5, 10]}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                sortModel={sortModel}
+                onSortModelChange={setSortModel}
+                checkboxSelection
+                disableRowSelectionOnClick
+                sx={{
                   backgroundColor: "#0c0e2f",
                   color: "white",
-                  borderColor: "rgba(255, 255, 255, 0.1)",
-                },
-                "& .MuiDataGrid-cell": {
-                  borderColor: "rgba(255, 255, 255, 0.1)",
-                  color: "white",
-                },
-                "& .MuiDataGrid-columnHeader": {
-                  backgroundColor: "#1a1d3a",
-                  borderColor: "rgba(255, 255, 255, 0.1)",
-                  color: "white",
-                  fontWeight: "bold",
-                },
-                "& .MuiDataGrid-row": {
-                  backgroundColor: "#0c0e2f",
-                  "&:hover": {
+                  border: "none",
+                  "@media (hover: hover)": {
+                    "& .MuiDataGrid-columnHeader .MuiDataGrid-iconButtonContainer":
+                      {
+                        opacity: 0,
+                        transition: "opacity 140ms ease",
+                      },
+                    "& .MuiDataGrid-columnHeader:hover .MuiDataGrid-iconButtonContainer":
+                      {
+                        opacity: 1,
+                      },
+                    "& .MuiDataGrid-columnHeader:focus-within .MuiDataGrid-iconButtonContainer":
+                      {
+                        opacity: 1,
+                      },
+                    "& .MuiDataGrid-columnHeader .MuiDataGrid-sortIcon": {
+                      opacity: 0,
+                      transition: "opacity 140ms ease",
+                    },
+                    "& .MuiDataGrid-columnHeader:hover .MuiDataGrid-sortIcon": {
+                      opacity: 1,
+                    },
+                    "& .MuiDataGrid-columnHeader:focus-within .MuiDataGrid-sortIcon":
+                      {
+                        opacity: 1,
+                      },
+                  },
+                  "& .MuiDataGrid-root": {
+                    backgroundColor: "#0c0e2f",
+                    color: "white",
+                    borderColor: "rgba(255, 255, 255, 0.1)",
+                  },
+                  "& .MuiDataGrid-cell": {
+                    borderColor: "rgba(255, 255, 255, 0.1)",
+                    color: "white",
+                  },
+                  "& .MuiDataGrid-columnHeader": {
                     backgroundColor: "#1a1d3a",
+                    borderColor: "rgba(255, 255, 255, 0.1)",
+                    color: "white",
+                    fontWeight: "bold",
                   },
-                  "&.Mui-selected": {
-                    backgroundColor: "#1a1d3a !important",
+                  "& .MuiDataGrid-row": {
+                    backgroundColor: "#0c0e2f",
+                    "&:hover": {
+                      backgroundColor: "#1a1d3a",
+                    },
+                    "&.Mui-selected": {
+                      backgroundColor: "#1a1d3a !important",
+                    },
                   },
-                },
-                "& .MuiCheckbox-root": {
-                  color: "rgb(96, 165, 250) !important",
-                },
-                "& .MuiDataGrid-footerContainer": {
-                  borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-                  backgroundColor: "#0c0e2f",
-                  color: "white",
-                },
-                "& .MuiTablePagination-root": {
-                  color: "white !important",
-                },
-                "& .MuiTablePagination-selectLabel": {
-                  color: "white !important",
-                },
-                "& .MuiTablePagination-displayedRows": {
-                  color: "white !important",
-                },
-                "& .MuiDataGrid-columnHeaderTitle": {
-                  color: "white",
-                },
-              }}
-            />
-          </div>
+                  "& .MuiCheckbox-root": {
+                    color: "rgb(96, 165, 250) !important",
+                  },
+                  "& .MuiDataGrid-footerContainer": {
+                    borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+                    backgroundColor: "#0c0e2f",
+                    color: "white",
+                  },
+                  "& .MuiTablePagination-root": {
+                    color: "white !important",
+                  },
+                  "& .MuiTablePagination-selectLabel": {
+                    color: "white !important",
+                  },
+                  "& .MuiTablePagination-displayedRows": {
+                    color: "white !important",
+                  },
+                  "& .MuiDataGrid-columnHeaderTitle": {
+                    color: "white",
+                  },
+                }}
+              />
+            </div>
           )}
         </div>
       </div>
@@ -688,9 +684,7 @@ function UsersPage() {
             <TextField
               label="Age"
               value={form.age}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, age: e.target.value }))
-              }
+              onChange={(e) => setForm((f) => ({ ...f, age: e.target.value }))}
               error={Boolean(errors.age)}
               helperText={errors.age}
               fullWidth
@@ -741,10 +735,7 @@ function UsersPage() {
               fullWidth
               sx={modalFieldSx}
             />
-            <FormControl
-              fullWidth
-              sx={{ gridColumn: "1 / -1" }}
-            >
+            <FormControl fullWidth sx={{ gridColumn: "1 / -1" }}>
               <InputLabel id="modal-role" sx={inputLabelSx}>
                 Role
               </InputLabel>

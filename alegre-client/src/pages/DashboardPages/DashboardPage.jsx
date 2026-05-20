@@ -75,7 +75,6 @@ function DashboardPage() {
   return (
     <div className="min-h-screen bg-[#0c0e2f] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="mb-8">
           <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-blue-400 mb-2">
             Management
@@ -85,7 +84,6 @@ function DashboardPage() {
           </h1>
         </div>
 
-        {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-2 mb-8">
           <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
@@ -103,7 +101,6 @@ function DashboardPage() {
           </div>
         </div>
 
-        {/* Gauges Section */}
         <div className="grid gap-6 md:grid-cols-2 mb-8">
           <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col items-center">
             <h3 className="text-lg font-bold text-white mb-4">System Load</h3>
@@ -133,9 +130,7 @@ function DashboardPage() {
           </div>
         </div>
 
-        {/* Charts Section */}
         <div className="grid gap-6 lg:grid-cols-3 mb-8">
-          {/* Bar Chart */}
           <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
             <h3 className="text-lg font-bold text-white mb-4">
               Quarterly Sales
@@ -180,7 +175,6 @@ function DashboardPage() {
             </div>
           </div>
 
-          {/* Pie Chart */}
           <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col items-center">
             <h3 className="text-lg font-bold text-white mb-4">Distribution</h3>
             <PieChart
@@ -214,7 +208,6 @@ function DashboardPage() {
           </div>
         </div>
 
-        {/* User Management Table */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">
             User Management
@@ -284,7 +277,6 @@ function DashboardPage() {
           </div>
         </div>
 
-        {/* Map Section */}
         <div>
           <h2 className="text-2xl font-bold text-white mb-4">
             Global Office Location

@@ -164,12 +164,10 @@ const OtherWorksPage = () => {
 
         <footer className="mt-20 border-t border-white/5 bg-black/20 backdrop-blur-md py-8 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] tracking-[0.2em] uppercase font-medium">
-            {/* Copyright Info */}
             <p className="text-slate-500">
               © 2026 Allen B. Alegre. All Rights Reserved.
             </p>
 
-            {/* System Status Line */}
             <div className="flex items-center gap-3 text-slate-300">
               <span className="text-blue-500 font-bold tracking-[0.3em]">
                 System Status:

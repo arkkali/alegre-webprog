@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import TextField from "@mui/material/TextField";
@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import articlesSource from "../../assets/article-content.js";
+import api from "../../lib/api.js";
 
 function buildRows(list) {
   return list
@@ -34,15 +35,39 @@ const inputLabelSx = {
 };
 
 function DashArticleListPage() {
-  const allRows = useMemo(() => buildRows(articlesSource), []);
+  const [articleData, setArticleData] = useState(articlesSource);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
   });
-  const [sortModel, setSortModel] = useState([
-    { field: "id", sort: "asc" },
-  ]);
+  const [sortModel, setSortModel] = useState([{ field: "id", sort: "asc" }]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadArticles = async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get("/articles");
+        if (!cancelled && Array.isArray(data.articles)) {
+          setArticleData(data.articles);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setArticleData(articlesSource);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    void loadArticles();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const allRows = useMemo(() => buildRows(articleData), [articleData]);
 
   const filteredRows = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -51,7 +76,7 @@ function DashArticleListPage() {
       (row) =>
         row.title.toLowerCase().includes(q) ||
         row.slug.toLowerCase().includes(q) ||
-        row.preview.toLowerCase().includes(q)
+        row.preview.toLowerCase().includes(q),
     );
   }, [search, allRows]);
 
@@ -68,9 +93,7 @@ function DashArticleListPage() {
         renderCell: (params) => {
           const url = params.value;
           if (!url || url === "#")
-            return (
-              <span style={{ color: "rgba(255,255,255,0.45)" }}>—</span>
-            );
+            return <span style={{ color: "rgba(255,255,255,0.45)" }}>—</span>;
           return (
             <Button
               size="small"
@@ -114,7 +137,7 @@ function DashArticleListPage() {
         ),
       },
     ],
-    []
+    [],
   );
 
   return (
@@ -181,53 +204,59 @@ function DashArticleListPage() {
         </div>
 
         <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md p-6 overflow-hidden">
-          <div style={{ height: 500, width: "100%" }}>
-            <DataGrid
-              rows={filteredRows}
-              columns={columns}
-              pageSizeOptions={[5, 10]}
-              paginationModel={paginationModel}
-              onPaginationModelChange={setPaginationModel}
-              sortModel={sortModel}
-              onSortModelChange={setSortModel}
-              disableRowSelectionOnClick
-              sx={{
-                backgroundColor: "#0c0e2f",
-                color: "white",
-                border: "none",
-                "& .MuiDataGrid-cell": {
-                  borderColor: "rgba(255, 255, 255, 0.1)",
-                  color: "white",
-                },
-                "& .MuiDataGrid-columnHeader": {
-                  backgroundColor: "#1a1d3a",
-                  borderColor: "rgba(255, 255, 255, 0.1)",
-                  color: "white",
-                  fontWeight: "bold",
-                },
-                "& .MuiDataGrid-row": {
+          {loading ? (
+            <div className="h-72 flex items-center justify-center text-slate-400">
+              Loading articles...
+            </div>
+          ) : (
+            <div style={{ height: 500, width: "100%" }}>
+              <DataGrid
+                rows={filteredRows}
+                columns={columns}
+                pageSizeOptions={[5, 10]}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                sortModel={sortModel}
+                onSortModelChange={setSortModel}
+                disableRowSelectionOnClick
+                sx={{
                   backgroundColor: "#0c0e2f",
-                  "&:hover": {
-                    backgroundColor: "#1a1d3a",
+                  color: "white",
+                  border: "none",
+                  "& .MuiDataGrid-cell": {
+                    borderColor: "rgba(255, 255, 255, 0.1)",
+                    color: "white",
                   },
-                },
-                "& .MuiDataGrid-footerContainer": {
-                  borderTop: "1px solid rgba(255, 255, 255, 0.1)",
-                  backgroundColor: "#0c0e2f",
-                  color: "white",
-                },
-                "& .MuiTablePagination-root": {
-                  color: "white !important",
-                },
-                "& .MuiTablePagination-selectLabel": {
-                  color: "white !important",
-                },
-                "& .MuiTablePagination-displayedRows": {
-                  color: "white !important",
-                },
-              }}
-            />
-          </div>
+                  "& .MuiDataGrid-columnHeader": {
+                    backgroundColor: "#1a1d3a",
+                    borderColor: "rgba(255, 255, 255, 0.1)",
+                    color: "white",
+                    fontWeight: "bold",
+                  },
+                  "& .MuiDataGrid-row": {
+                    backgroundColor: "#0c0e2f",
+                    "&:hover": {
+                      backgroundColor: "#1a1d3a",
+                    },
+                  },
+                  "& .MuiDataGrid-footerContainer": {
+                    borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+                    backgroundColor: "#0c0e2f",
+                    color: "white",
+                  },
+                  "& .MuiTablePagination-root": {
+                    color: "white !important",
+                  },
+                  "& .MuiTablePagination-selectLabel": {
+                    color: "white !important",
+                  },
+                  "& .MuiTablePagination-displayedRows": {
+                    color: "white !important",
+                  },
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
