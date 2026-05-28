@@ -1,14 +1,24 @@
 {
-  "buildCommand": "cd alegre-client && npm run build",
-  "outputDirectory": "alegre-client/dist",
+  "version": 2,
+  "builds": [
+    {
+      "src": "alegre-client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "alegre-server/index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "/api"
+      "destination": "alegre-server/index.js"
     },
     {
-      "source": "/:path*",
-      "destination": "/index.html"
+      "source": "/(.*)",
+      "destination": "alegre-client/$1"
     }
   ]
 }
