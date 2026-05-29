@@ -9,7 +9,8 @@ import articleRoutes from "./routes/articleRoutes.js";
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://alegre-webprog-client.vercel.app",
+  
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
