@@ -10,8 +10,7 @@ const app = express();
 
 // Allowed explicit origins
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://alegre-webprog-client.vercel.app"
+  "https://alegre-webprog-client.vercel.app",
 ];
 
 // Dynamic CORS configuration to handle both production and Vercel preview domains
