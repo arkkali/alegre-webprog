@@ -72,13 +72,6 @@ const articles = [
       "Finally, patience and perspective are key. Realism is a slow process of building layers until the paper disappears and the person emerges. A great trick is to use a mirror to check your work; seeing your drawing in reverse reveals proportional errors instantly that your eyes had become 'blind' to during the long drawing process."
     ]
   },
-  {
-  title: "Broken Link Test",
-  image: null,
-  sourceUrl: "#",
-  invalid: true, 
-  content: ["Will redirect to not found page"]
-}
 ];
 
 
